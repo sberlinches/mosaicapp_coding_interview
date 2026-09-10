@@ -9,8 +9,38 @@ role VARCHAR(50) NOT NULL,
 team VARCHAR(50) NOT NULL,
 allocation_pct SMALLINT NOT NULL,
 start_date DATE NOT NULL,
-end_date DATE NOT NULL
+end_date DATE NOT NULL,
+CHECK (allocation_pct BETWEEN 0 AND 100),
+CHECK (end_date >= start_date)
 );
+
+-- PLAN VERSION TABLES
+CREATE TABLE IF NOT EXISTS api.plan_versions (
+id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+name VARCHAR(100) NOT NULL,
+created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+CREATE TABLE IF NOT EXISTS api.plan_version_rows (
+id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+version_id UUID NOT NULL REFERENCES api.plan_versions(id) ON DELETE CASCADE,
+row_key UUID NOT NULL,
+person_name VARCHAR(50) NOT NULL,
+role VARCHAR(50) NOT NULL,
+team VARCHAR(50) NOT NULL,
+allocation_pct SMALLINT NOT NULL CHECK (allocation_pct BETWEEN 0 AND 100),
+start_date DATE NOT NULL,
+end_date DATE NOT NULL,
+CHECK (end_date >= start_date),
+UNIQUE (version_id, row_key)
+);
+
+CREATE INDEX IF NOT EXISTS plan_versions_created_at_idx
+ON api.plan_versions (created_at);
+
+CREATE INDEX IF NOT EXISTS plan_version_rows_version_id_idx
+ON api.plan_version_rows (version_id);
+
 -- EMPLOYEES DATA
 INSERT INTO api.employees (person_name, role, team, allocation_pct, start_date, end_date) VALUES
 ('Priya Sharma', 'Senior Software Engineer', 'Web', 50, '2026-01-05', '2026-06-30'),
