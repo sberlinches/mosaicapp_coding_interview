@@ -61,6 +61,25 @@ describe('PlanRepository (unit)', () => {
     });
     expect(database.employee.upsert).toHaveBeenCalledTimes(1);
     expect(database.planVersion.create).toHaveBeenCalledTimes(1);
+    expect(database.planVersion.create).toHaveBeenCalledWith({
+      data: {
+        name: 'Baseline',
+        rows: {
+          create: [
+            expect.objectContaining({
+              rowKey: row.id,
+              personName: row.personName,
+            }),
+          ],
+        },
+      },
+      include: { rows: true },
+    });
+    expect(
+      vi.mocked(database.planVersion.create).mock.calls[0][0].data.rows?.create,
+    ).not.toEqual(
+      expect.arrayContaining([expect.objectContaining({ id: row.id })]),
+    );
   });
 
   it('should keep existing rows when none are removed and load a version', async () => {

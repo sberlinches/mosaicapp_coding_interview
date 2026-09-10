@@ -69,7 +69,12 @@ export class PlanRepository {
         rows: {
           create: rows.map((row) => ({
             rowKey: row.id,
-            ...this.toEmployeeData(row),
+            personName: row.personName,
+            role: row.role,
+            team: row.team,
+            allocationPct: row.allocationPct,
+            startDate: new Date(row.startDate),
+            endDate: new Date(row.endDate),
           })),
         },
       },
