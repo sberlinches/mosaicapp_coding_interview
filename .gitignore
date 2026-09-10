@@ -1,0 +1,16 @@
+# compiled output
+dist
+generated
+node_modules
+
+# OS
+.DS_Store
+
+# Tests
+coverage
+
+# IDEs and editors
+.idea
+
+# dotenv environment variable files
+.env

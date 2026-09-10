@@ -1,0 +1,40 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["node", "oxc", "react", "typescript"],
+  "categories": {
+    "correctness": "error",
+    "suspicious": "warn",
+    "pedantic": "off",
+    "perf": "warn"
+  },
+  "options": {
+    "typeAware": true,
+    "typeCheck": true
+  },
+  "ignorePatterns": ["coverage/", "dist/", "node_modules/"],
+  "rules": {
+    "no-console": "error"
+  },
+  "overrides": [
+    {
+      "files": ["src/**/*.tsx"],
+      "rules": {
+        "react/only-export-components": [
+          "warn",
+          { "allowConstantExport": true }
+        ],
+        "react/react-in-jsx-scope": "off",
+        "react/rules-of-hooks": "error"
+      }
+    },
+    {
+      "files": ["test/**/*.test.ts"],
+      "plugins": ["vitest"],
+      "rules": {
+        "vitest/expect-expect": "error",
+        "vitest/no-focused-tests": "error",
+        "typescript/no-explicit-any": "off"
+      }
+    }
+  ]
+}

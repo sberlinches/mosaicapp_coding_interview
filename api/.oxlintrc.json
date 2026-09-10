@@ -1,0 +1,39 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["node", "typescript", "import"],
+  "env": {
+    "node": true,
+    "es2022": true
+  },
+  "globals": {},
+  "ignorePatterns": [
+    "coverage/",
+    "dist/",
+    "generated/",
+    "node_modules/",
+    "prisma/"
+  ],
+  "rules": {
+    "no-console": "error"
+  },
+  "overrides": [
+    {
+      "files": ["src/**/*.ts"],
+      "rules": {
+        "typescript/no-explicit-any": "warn",
+        "typescript/no-floating-promises": "warn",
+        "typescript/no-unsafe-argument": "warn"
+      }
+    },
+    {
+      "files": ["test/**/*.test.ts"],
+      "plugins": ["vitest"],
+      "rules": {
+        "vitest/expect-expect": "error",
+        "vitest/require-mock-type-parameters": "off",
+        "vitest/no-focused-tests": "error",
+        "typescript/no-explicit-any": "off"
+      }
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  schemas  = ["api"]
+}
+
+model Employee {
+  id            String   @id @default(dbgenerated("gen_random_uuid()")) @map("id") @db.Uuid
+  personName    String   @map("person_name") @db.VarChar(50)
+  role          String   @map("role") @db.VarChar(50)
+  team          String   @map("team") @db.VarChar(50)
+  allocationPct Int      @map("allocation_pct") @db.SmallInt
+  startDate     DateTime @map("start_date") @db.Date
+  endDate       DateTime @map("end_date") @db.Date
+
+  @@map("employees")
+  @@schema("api")
+}
